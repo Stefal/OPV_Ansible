@@ -1,0 +1,25 @@
+# All ressources that are use by the Master and the Workers
+
+##############################
+### Install common package ###
+##############################
+
+- name: Install Python3, git and some stuff
+  apt: name={{ item }} state=present
+  with_items:
+   - python3-pip
+   - python3-wheel
+   - python3-venv
+   - git
+   - libxslt-dev
+   - libpq-dev
+   - python-psycopg2
+   - python3-psycopg2
+   - python3-pil
+   - exempi
+   - imagemagick
+
+- include: build_hosts_file.yml
+- include: opv.yml
+- include: airflow.yml
+- include: hugin.yml

@@ -1,0 +1,110 @@
+#####################
+### Install Hugin ###
+#####################
+
+- name: Hugin dependency
+  apt: name={{ item }} state=present
+  with_items:
+    - libheimbase1-heimdal
+    - libhcrypto4-heimdal
+    - libkrb5support0
+    - libroken18-heimdal
+    - dpkg-dev
+    - libglew1.13
+    - libvigraimpex-dev
+    - libxcb1
+    - libasn1-8-heimdal
+    - libarchive13
+    - libjbig0
+    - libilmbase-dev
+    - libx11-6
+    - locales
+    - libjpeg-turbo8
+    - libgssapi3-heimdal
+    - liblapack3
+    - liblocale-gettext-perl
+    - perl-modules-5.22
+    - libtasn1-6
+    - libboost1.58-dev
+    - libkeyutils1
+    - libgnutls30
+    - libboost-system1.58.0
+    - libxext6
+    - libgl1-mesa-glx
+    - libxau6
+    - libffi6
+    - libblas3
+    - cmake-data
+    - libsqlite3-0
+    - libkrb5-3
+    - libperl5.22
+    - liblzo2-2
+    - libvigraimpex5v5
+    - libwxgtk3.0-dev
+    - libidn11
+    - libegl1-mesa
+    - python3.5-minimal
+    - libnettle6
+    - liblcms2-2
+    - libk5crypto3
+    - libssl1.0.0
+    - libexpat1
+    - libpng12-0
+    - libkrb5-26-heimdal
+    - libboost-filesystem1.58.0
+    - libxdmcp6
+    - libjsoncpp1
+    - libfftw3-double3
+    - swig3.0
+    - libheimntlm0-heimdal
+    - libglib2.0-0
+    - libfakeroot
+    - libcurl3
+    - libicu55
+    - libpano13-dev
+    - libgssapi-krb5-2
+    - libhx509-5-heimdal
+    - libxml2
+    - librtmp1
+    - libldap-2.4-2
+    - libtiff5
+    - libpython3.5-dev
+    - pkg-config
+    - libexiv2-dev
+    - libp11-kit0
+    - libglu1-mesa
+    - libwind0-heimdal
+    - libsasl2-2
+    - cmake
+    - libice6
+    - language-pack-en-base
+    - libpython3.5
+    - libopenexr-dev
+    - libhogweed4
+    - wx3.0-headers
+
+- name: Extract hugin.tar.gz
+  unarchive:
+    src: hugin.tar.gz
+    dest: /root
+
+# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS
+- name: Install Hugin
+  command: cp -rp /root/hugin/usr /.
+
+
+#######################################
+### Install Hugin in our virtualenv ###
+#######################################
+
+- name: Link to hsi.py
+  file:
+    src: /usr/lib/python3/dist-packages/hsi.py
+    dest: /home/opv/venvs/opv/lib/python3.5/site-packages/hsi.py
+    state: link
+
+- name: Link to _hsi.so
+  file:
+    src: /usr/lib/python3/dist-packages/_hsi.so
+    dest: /home/opv/venvs/opv/lib/python3.5/site-packages/_hsi.so
+    state: link

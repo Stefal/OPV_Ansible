@@ -1,0 +1,9 @@
+###############
+### Airflow ###
+###############
+
+- name: Launch airflow worker
+  service:
+    name: "airflow-worker"
+    state: started
+    enabled: yes

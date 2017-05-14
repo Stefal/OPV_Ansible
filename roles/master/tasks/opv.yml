@@ -1,0 +1,85 @@
+###########
+### OPV ###
+###########
+
+- name: Create OPV postgresql database
+  postgresql_db:
+    name: opv
+  become: yes
+  become_user: postgres
+
+- name: Create OPV postgresql user
+  postgresql_user:
+    db: opv
+    name: opv
+    password: "{{ postgresPasswdOPV }}"
+  become: yes
+  become_user: postgres
+
+- name: Activate postgis
+  postgresql_ext:
+    name: postgis
+    db: opv
+  become: yes
+  become_user: postgres
+
+- name: Configure Postgresql (pg_hba.conf)
+  lineinfile:
+    dest: /etc/postgresql/9.5/main/pg_hba.conf
+    line: "host    opv         opv         0.0.0.0/0               md5"
+  notify:
+  - Restart Postgresql
+
+- meta: flush_handlers
+
+- name: Configure DirectoryManager
+  template:
+    src: "directory_manager.conf"
+    dest: "/home/opv/conf/directory_manager.conf"
+    owner: opv
+    group: opv
+    mode: 0744
+
+- name: Setup OPV bin script
+  template:
+    src: "launch_{{ item }}.sh"
+    dest: "/home/opv/bin/launch_{{ item }}.sh"
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - api
+    - dm
+
+- name: Shitty Fix for configuring OPV_DBrest
+  template:
+    src: settings.py
+    dest: /home/opv/venvs/opv/lib64/python3.5/site-packages/dbrest/settings.py
+    owner: opv
+    group: opv
+    mode: 0744
+
+- name: Setup OPV service
+  template:
+    src: "{{ item }}-service.j2"
+    dest: "/etc/systemd/system/opv-{{ item }}.service"
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - api
+    - dm
+
+- name: Reload Systemctl
+  command: systemctl daemon-reload
+
+- meta: flush_handlers
+
+- name: Launch OPV service
+  service:
+    name: "opv-{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - api
+    - dm

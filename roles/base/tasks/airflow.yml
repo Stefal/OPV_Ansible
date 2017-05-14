@@ -1,0 +1,57 @@
+#######################
+### Install Airflow ###
+#######################
+
+- name: Install Airflow
+  pip:
+    name: "{{ item }}"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+  with_items:
+    - airflow
+    - postgres
+    - celery
+    - redis
+    - flower
+    - PySocks
+  become: yes
+  become_user: opv
+
+- name: Setup launch_airflow_service.sh
+  template:
+    src: launch_airflow_service.sh
+    dest: /home/opv/bin/launch_airflow_service.sh
+    owner: opv
+    group: opv
+    mode: 0755
+
+- name: Create airflow directory
+  file:
+    path: "/home/opv/airflow"
+    state: directory
+    owner: opv
+    group: opv
+    mode: 0755
+
+- name: Configure airflow
+  template:
+    src: airflow.cfg
+    dest: /home/opv/airflow/airflow.cfg
+    owner: opv
+    group: opv
+    mode: 0744
+
+- name: Setup Airflow services
+  template:
+    src: airflow.service.j2
+    dest: "/etc/systemd/system/airflow-{{ item }}.service"
+  with_items:
+    - webserver
+    - scheduler
+    - flower
+    - worker
+
+- name: Reload Systemctl
+  command: systemctl daemon-reload
+
+- meta: flush_handlers

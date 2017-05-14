@@ -1,0 +1,11 @@
+- hosts: Master
+  remote_user: root
+  roles:
+    - base
+    - master
+
+- hosts: Worker
+  remote_user: root
+  roles:
+    - base
+    - worker

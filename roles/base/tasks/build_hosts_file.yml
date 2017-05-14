@@ -1,0 +1,14 @@
+##################
+### /etc/hosts ###
+##################
+
+- name: "Add OPV_Master to hosts file"
+  lineinfile: dest=/etc/hosts regexp='.*{{ OPVMaster }}$' line="{{ hostvars[item].ansible_host }} {{ OPVMaster }}" state=present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups['Master'][0] }}"
+
+
+- name: "Build hosts file"
+  lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_host }} {{item}}" state=present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups['Worker'] }}"

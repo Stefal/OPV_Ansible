@@ -1,0 +1,42 @@
+##################
+### Postgresql ###
+##################
+
+- name: Install Postgresql
+  apt: name={{ item }} state=present
+  with_items:
+   - postgresql
+   - postgresql-client
+   - postgis
+
+- name: Configure Postgresql (postgresql.conf)
+  replace:
+    dest: /etc/postgresql/9.5/main/postgresql.conf
+    regexp: "^(#listen_addresses|listen_addresses) = 'localhost'.*"
+    replace: "listen_addresses = '*'"
+  notify:
+  - Restart Postgresql
+
+- meta: flush_handlers
+
+#############
+### Redis ###
+#############
+
+- name: Install redis
+  apt: name={{ item }} state=present
+  with_items:
+    - redis-server
+
+- name: Configure Redis
+  replace:
+    dest: /etc/redis/redis.conf
+    regexp: '^bind 127.0.0.1'
+    replace: 'bind 0.0.0.0'
+  notify:
+  - Restart Redis
+
+- meta: flush_handlers
+
+- include: airflow.yml
+- include: opv.yml

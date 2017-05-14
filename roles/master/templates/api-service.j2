@@ -1,0 +1,16 @@
+[Unit]
+Description=OPV DB Rest API
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=opv
+
+ExecStart=/home/opv/bin/launch_api.sh
+
+Restart=on-failure
+
+ 
+[Install]
+WantedBy=multi-user.target

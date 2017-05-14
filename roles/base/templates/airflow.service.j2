@@ -1,0 +1,16 @@
+[Unit]
+Description={{ item }}
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=opv
+
+ExecStart=/home/opv/bin/launch_airflow_service.sh {{ item }}
+
+Restart=on-failure
+
+
+[Install]
+WantedBy=multi-user.target

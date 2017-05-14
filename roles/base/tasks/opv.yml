@@ -1,0 +1,46 @@
+# Create the OPV user
+- name: Create the opv user
+  user:
+    name: opv
+
+# Create the directory tree
+- name: Create opv user's tree
+  file:
+    path: "/home/opv/{{ item }}"
+    state: directory
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - bin
+    - conf
+    - data
+    - data/dm
+    - dev
+    - logs
+    - venvs
+
+###########################
+### Installation de OPV ###
+###########################
+
+- name: Install OPV modules
+  pip:
+    name: "git+{{ item }}"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+    editable: false
+  with_items:
+    - https://github.com/OpenPathView/DirectoryManager
+    - https://github.com/OpenPathView/OPV_DBRest.git
+    - https://github.com/OpenPathView/OPV_DBRest-client.git
+    - https://github.com/OpenPathView/DirectoryManagerClient.git
+    - https://github.com/OpenPathView/OPV_importData.git
+    - https://github.com/OpenPathView/OPV_Tasks.git
+  become: yes
+  become_user: opv
+
+- name: Add virtualenv activation in bashrc file for opv user
+  lineinfile:
+    dest: /home/opv/.bashrc
+    line: "source ~/venvs/opv/bin/activate"
