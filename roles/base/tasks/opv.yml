@@ -24,17 +24,31 @@
 ### Installation de OPV ###
 ###########################
 
+- name: Update pip, wheel and setuptools
+  pip:
+    name: "{{ item }}"
+    extra_args: "--upgrade"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+    state: latest
+    editable: false
+  with_items:
+    - pip
+    - wheel
+    - setuptools
+  become: yes
+  become_user: opv
+
 - name: Install OPV modules
   pip:
     name: "git+{{ item }}"
     virtualenv: /home/opv/venvs/opv
     virtualenv_command: pyvenv
     editable: false
+    extra_args: "--process-dependency-links"
   with_items:
     - https://github.com/OpenPathView/DirectoryManager
     - https://github.com/OpenPathView/OPV_DBRest.git
-    - https://github.com/OpenPathView/OPV_DBRest-client.git
-    - https://github.com/OpenPathView/DirectoryManagerClient.git
     - https://github.com/OpenPathView/OPV_importData.git
     - https://github.com/OpenPathView/OPV_Tasks.git
   become: yes
