@@ -27,11 +27,14 @@
 
 - name: Create airflow directory
   file:
-    path: "/home/opv/airflow"
+    path: "{{ item }}"
     state: directory
     owner: opv
     group: opv
     mode: 0755
+  with_items:
+    - /home/opv/airflow
+    - /home/opv/airflow/dags
 
 - name: Configure airflow
   template:
