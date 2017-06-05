@@ -1,5 +1,0 @@
-[Master]
-master ansible_host=192.168.5.30
-
-[Worker]
-worker0 ansible_host=192.168.5.50
