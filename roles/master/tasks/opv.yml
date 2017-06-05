@@ -51,14 +51,6 @@
     - api
     - dm
 
-- name: Shitty Fix for configuring OPV_DBrest
-  template:
-    src: settings.py
-    dest: /home/opv/venvs/opv/lib64/python3.5/site-packages/dbrest/settings.py
-    owner: opv
-    group: opv
-    mode: 0744
-
 - name: Setup OPV service
   template:
     src: "{{ item }}-service.j2"
