@@ -3,6 +3,3 @@
 
 - name: Restart Redis
   service: name=redis state=restarted
-
-- name: Reload NFS
-  service: name=nfs-kernel-server state=restarted
