@@ -7,13 +7,3 @@
     name: "airflow-worker"
     state: started
     enabled: yes
-
-- name: Mount /home/opv/airflow/dags
-  mount:
-    name: "/home/opv/airflow/dags"
-    src: "{{ OPVMaster }}:/home/opv/airflow/dags"
-    fstype: nfs
-    opts: defaults,user,auto,noatime,intr
-    dump: 0
-    passno: 2
-    state: mounted
