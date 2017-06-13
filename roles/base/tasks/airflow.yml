@@ -33,14 +33,6 @@
     group: opv
     mode: 0755
 
-- name: Configure airflow
-  template:
-    src: airflow.cfg
-    dest: /home/opv/airflow/airflow.cfg
-    owner: opv
-    group: opv
-    mode: 0744
-
 - name: Setup Airflow services
   template:
     src: airflow.service.j2

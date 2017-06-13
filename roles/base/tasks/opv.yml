@@ -58,3 +58,28 @@
   lineinfile:
     dest: /home/opv/.bashrc
     line: "source ~/venvs/opv/bin/activate"
+
+- name: Setup OPV bin script
+  template:
+    src: "launch_{{ item }}.sh"
+    dest: "/home/opv/bin/launch_{{ item }}.sh"
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - api
+    - dm
+    
+- name: Setup OPV service
+  template:
+    src: "{{ item }}-service.j2"
+    dest: "/etc/systemd/system/opv-{{ item }}.service"
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - api
+    - dm
+
+- name: Reload Systemctl
+  command: systemctl daemon-reload

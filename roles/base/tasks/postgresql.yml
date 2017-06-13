@@ -1,0 +1,20 @@
+##################
+### Postgresql ###
+##################
+
+- name: Install Postgresql
+  apt: name={{ item }} state=present
+  with_items:
+   - postgresql
+   - postgresql-client
+   - postgis
+
+- name: Configure Postgresql (postgresql.conf)
+  replace:
+    dest: /etc/postgresql/9.5/main/postgresql.conf
+    regexp: "^(#listen_addresses|listen_addresses) = 'localhost'.*"
+    replace: "listen_addresses = '*'"
+  notify:
+  - Restart Postgresql
+
+- meta: flush_handlers

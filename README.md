@@ -45,5 +45,43 @@ OPVMaster: OPV_Master
 * idMallete: The id of the CUL you want to build
 * OPV_Master: Just a way to set an alias to the master (use OPV_Master instead of the master's hostname)
 
-# Todo
-* Rename idMallete to id_CUL
+
+# Launch the playbooks
+
+
+## Install all dependencies
+
+This playbooks will install all .deb package and all the stuff that need internet
+
+
+```
+./launch_install.sh
+```
+
+## Configure all component
+
+This playbooks will:
+
+* Stop anything that is running on the CUL (all services will be stop)
+* Choose the Master
+    * Start all services in it
+    * Configure airflow and initialize database
+    * Create OPV database
+* Activate worker
+    * Start worker on the host
+
+
+
+```
+./launch_configuration.sh
+```
+
+## Do both
+
+To do the install and configure step as one, you can use:
+
+
+
+```
+./launch.sh
+```
