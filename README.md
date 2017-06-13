@@ -15,7 +15,9 @@ HOSTNAME ansible_host=HOST_IP
 
 Two possible roles:
 * master: only one host can be the master
-* worker: multiple hosts can be worker, **but they must have diffrent hostname!**
+* worker: multiple hosts can be worker, **but they must have different hostname!**
+
+**The first entry must be the correct hostname of the HOST !**
 
 As example, imagine that we have 3 host: opv1, opv2 and opv3. We want the opv1 host to be our master and other as worker, so we complete the hosts file as follow:
 
