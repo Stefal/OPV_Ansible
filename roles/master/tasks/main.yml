@@ -1,42 +1,18 @@
-##################
-### Postgresql ###
-##################
+################################
+### Activate Master Services ###
+################################
 
-- name: Install Postgresql
-  apt: name={{ item }} state=present
-  with_items:
-   - postgresql
-   - postgresql-client
-   - postgis
+- name: Start Postgresql
+  service:
+    name: "postgresql"
+    state: started
+    enabled: yes
 
-- name: Configure Postgresql (postgresql.conf)
-  replace:
-    dest: /etc/postgresql/9.5/main/postgresql.conf
-    regexp: "^(#listen_addresses|listen_addresses) = 'localhost'.*"
-    replace: "listen_addresses = '*'"
-  notify:
-  - Restart Postgresql
-
-- meta: flush_handlers
-
-#############
-### Redis ###
-#############
-
-- name: Install redis
-  apt: name={{ item }} state=present
-  with_items:
-    - redis-server
-
-- name: Configure Redis
-  replace:
-    dest: /etc/redis/redis.conf
-    regexp: '^bind 127.0.0.1'
-    replace: 'bind 0.0.0.0'
-  notify:
-  - Restart Redis
-
-- meta: flush_handlers
+- name: Start Redis
+  service:
+    name: "redis"
+    state: started
+    enabled: yes
 
 - include: airflow.yml
 - include: opv.yml
