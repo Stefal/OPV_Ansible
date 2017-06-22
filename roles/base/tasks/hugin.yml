@@ -82,6 +82,7 @@
     - libopenexr-dev
     - libhogweed4
     - wx3.0-headers
+    - enblend
 
 - name: Extract hugin.tar.gz
   unarchive:
