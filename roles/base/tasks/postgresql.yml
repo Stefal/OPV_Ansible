@@ -11,7 +11,7 @@
 
 - name: Configure Postgresql (postgresql.conf)
   replace:
-    dest: /etc/postgresql/9.5/main/postgresql.conf
+    dest: /etc/postgresql/9.6/main/postgresql.conf
     regexp: "^(#listen_addresses|listen_addresses) = 'localhost'.*"
     replace: "listen_addresses = '*'"
   notify:

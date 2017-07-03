@@ -10,7 +10,7 @@
     - libkrb5support0
     - libroken18-heimdal
     - dpkg-dev
-    - libglew1.13
+    - libglew2.0
     - libvigraimpex-dev
     - libxcb1
     - libasn1-8-heimdal
@@ -23,12 +23,12 @@
     - libgssapi3-heimdal
     - liblapack3
     - liblocale-gettext-perl
-    - perl-modules-5.22
+    - perl-modules-5.24
     - libtasn1-6
-    - libboost1.58-dev
+    - libboost1.63-dev
     - libkeyutils1
     - libgnutls30
-    - libboost-system1.58.0
+    - libboost-system1.63.0
     - libxext6
     - libgl1-mesa-glx
     - libxau6
@@ -37,9 +37,9 @@
     - cmake-data
     - libsqlite3-0
     - libkrb5-3
-    - libperl5.22
+    - libperl5.24
     - liblzo2-2
-    - libvigraimpex5v5
+    - libvigraimpex6
     - libwxgtk3.0-dev
     - libidn11
     - libegl1-mesa
@@ -49,9 +49,9 @@
     - libk5crypto3
     - libssl1.0.0
     - libexpat1
-    - libpng12-0
+    - libpng16-16
     - libkrb5-26-heimdal
-    - libboost-filesystem1.58.0
+    - libboost-filesystem1.63.0
     - libxdmcp6
     - libjsoncpp1
     - libfftw3-double3
@@ -60,7 +60,7 @@
     - libglib2.0-0
     - libfakeroot
     - libcurl3
-    - libicu55
+    - libicu57
     - libpano13-dev
     - libgssapi-krb5-2
     - libhx509-5-heimdal

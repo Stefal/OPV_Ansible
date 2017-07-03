@@ -18,7 +18,7 @@
 
 - name: Configure Postgresql (pg_hba.conf)
   lineinfile:
-    dest: /etc/postgresql/9.5/main/pg_hba.conf
+    dest: /etc/postgresql/9.6/main/pg_hba.conf
     line: "host    airflow         airflow         0.0.0.0/0               md5"
   notify:
   - Restart Postgresql
