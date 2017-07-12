@@ -7,6 +7,7 @@
     name: "{{ item }}"
     virtualenv: /home/opv/venvs/opv
     virtualenv_command: pyvenv
+    state: latest
   with_items:
     - airflow
     - postgres
@@ -27,10 +28,11 @@
 
 - name: Create airflow directory
   file:
-    path: "/home/opv/airflow"
+    path: "/home/opv/airflow/dags"
     state: directory
     owner: opv
     group: opv
+    recurse: yes
     mode: 0755
 
 - name: Setup Airflow services
