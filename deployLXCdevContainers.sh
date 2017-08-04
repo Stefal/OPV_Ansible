@@ -23,8 +23,8 @@ lxc launch ubuntu:16.04 $poil1Name
 lxc launch ubuntu:16.04 $poil2Name
 
 echo "Setup ssh"
-lxc exec $poil1Name -- bash -c "echo $sshKey >> ~/.ssh/authorized_keys"
-lxc exec $poil2Name -- bash -c "echo $sshKey >> ~/.ssh/authorized_keys"
+lxc exec $poil1Name -- bash -c "echo $sshKey > ~/.ssh/authorized_keys"
+lxc exec $poil2Name -- bash -c "echo $sshKey > ~/.ssh/authorized_keys"
 
 ipPoil1=$(lxc info $poil1Name | grep -P "eth0:\tinet\t" | awk '{print $3}')
 ipPoil2=$(lxc info $poil2Name | grep -P "eth0:\tinet\t" | awk '{print $3}')
@@ -33,8 +33,8 @@ ssh root@$ipPoil1 -o StrictHostKeyChecking=no exit
 ssh root@$ipPoil2 -o StrictHostKeyChecking=no exit
 
 echo "Installing python on lxc container"
-lxc exec poil1 -- apt install python
-lxc exec poil2 -- apt install python
+lxc exec $poil1Name -- apt-get install python
+lxc exec $poil2Name -- apt-get install python
 
 echo "Finish !"
 echo "You are now ready to use this container with ansible"
