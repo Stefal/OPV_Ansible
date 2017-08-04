@@ -1,5 +1,6 @@
 [Master]
-master ansible_host=192.168.5.16
+poil1 ansible_host=10.204.125.49
 
 [Worker]
-worker0 ansible_host=192.168.5.50
+poil2 ansible_host=10.204.125.186
+poil3 ansible_host=10.204.125.162
