@@ -4,6 +4,18 @@ This playbook install all services of a CUL (postgres, airflow and OPV services)
 * Change the hosts file to specify on wich host you want to install a master and workers
 * Change some parameters in group_vars/all to change password of postgres and some other stuff
 
+## Use with lxc
+
+If you want to deploy an developement environment you can make containers with lxc.
+The `deployLXCdevContainers.sh` script allow you to launch and configure 2 (one master and one worker) lxc containers.
+This script will make the hosts file so you can skip next part !
+
+```
+./deployLXCdevContainers.sh
+```
+
+Next you will just have to launch ansible !
+
 ## The hosts file
 
 The hosts file contain the ip and name of the master and all his workers. As we do not want to maintain a DNS on the CUL, we decided to populate the /etc/hosts file of the host with ansible, so you have to complete the host file as follow:
