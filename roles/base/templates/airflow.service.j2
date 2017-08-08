@@ -8,7 +8,8 @@ Type=simple
 User=opv
 
 ExecStart=/home/opv/bin/launch_airflow_service.sh {{ item }}
-
+KillSignal=SIGKILL
+KillMode=mixed
 Restart=on-failure
 
 
