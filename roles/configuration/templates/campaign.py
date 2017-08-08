@@ -6,8 +6,8 @@
 import airflow
 
 from airflow import DAG
-from opv_dags import create_dag_make_compaign
-from  opv_api_client import RestClient, Filter
+from opv_dags import make_campaign
+from opv_api_client import RestClient, Filter
 from opv_api_client.ressources import Campaign
 
 args = {
@@ -30,6 +30,6 @@ for campaign in campaigns:
 
     globals()[
         "%s_%s_%s" % (campaign.name, campaign.id_malette, campaign.id_campaign)
-        ] = create_dag_make_compaign(
+    ] = make_campaign(
         campaign.name, campaign.id_malette, campaign.id_campaign, args
     )
