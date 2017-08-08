@@ -1,0 +1,5 @@
+[Master]
+master ansible_host=10.229.187.21
+
+[Worker]
+slave ansible_host=10.229.187.33
