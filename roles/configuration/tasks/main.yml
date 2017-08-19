@@ -46,3 +46,11 @@
     owner: opv
     group: opv
     mode: 0744
+
+- name: Setup dag
+  template:
+    src: campaign.py
+    dest: /home/opv/airflow/dags/campaign.py
+    owner: opv
+    group: opv
+    mode: 0744

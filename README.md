@@ -42,6 +42,7 @@ opv2 ansible_host=192.168.1.3
 opv3 ansible_host=192.168.1.4
 ```
 
+For an example, you can look at the hosts_example file.
 
 ## The group_vars/all file
 
