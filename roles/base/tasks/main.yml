@@ -24,3 +24,4 @@
 - include: opv.yml
 - include: airflow.yml
 - include: hugin.yml
+- include: opensfm.yml

@@ -1,0 +1,96 @@
+- name: Install opensfm dependencies
+  apt: name={{ item }} state=present
+  with_items:
+   - build-essential
+   - cmake
+   - git
+   - libatlas-base-dev
+   - libboost-python-dev
+   - libeigen3-dev
+   - libgoogle-glog-dev
+   - libopencv-dev
+   - libsuitesparse-dev
+   - python3-dev
+   - python3-numpy
+   - python-opencv
+   - python-pyexiv2
+   - python3-pyproj
+   - python3-scipy
+   - python3-yaml
+   - wget
+
+- name: Extract ceres-solver-1.10.0.tar.gz
+  unarchive:
+    src: ceres-solver-1.10.0.tar.gz
+    dest: /root
+
+# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS
+- name: Install ceres-solver-1.10.0
+  command: cp -rp /root/ceres-solver-1.10.0/usr /.
+
+- name: Extract opengv.tar.gz
+  unarchive:
+    src: opengv.tar.gz
+    dest: /root
+
+# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS
+- name: Install opengv
+  command: cp -rp /root/opengv/usr /.
+
+########################################
+### Install opengv in our virtualenv ###
+#######################################
+
+- name: Create dist-packages directory
+  file:
+    path: "/home/opv/venvs/opv/lib/python3.5/dist-packages"
+    state: directory
+    owner: opv
+    group: opv
+    recurse: yes
+    mode: 0755
+
+- name: Install opencv
+  pip:
+    name: "{{ item }}"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+    state: latest
+  with_items:
+    - opencv
+  become: yes
+  become_user: opv
+
+
+- name: Link to pyopengv.so
+  file:
+    src: /usr/local/lib/python3.5/dist-packages/pyopengv.so
+    dest: /home/opv/venvs/opv/lib/python3.5/dist-packages/pyopengv.so
+    state: link
+
+- name: Install OpenSFM the dirty way, because Python3 => https://github.com/mapillary/OpenSfM/blob/master/setup.py#L19
+  shell: |
+    source ~/venvs/opv/bin/activate
+    cd ~opv/dev
+    git clone https://github.com/mapillary/OpenSfM.git
+    cd OpenSfM
+    2to3-3.5 -w setup.py
+    python3 setup.py install
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: opv
+
+
+# - name: Install OpenSfM
+#   pip:
+#     name: "git+{{ item }}"
+#     virtualenv: /home/opv/venvs/opv
+#     virtualenv_command: pyvenv
+#     editable: false
+#     extra_args: "--process-dependency-links"
+#     state: latest
+#   with_items:
+#     - https://github.com/mapillary/OpenSfM
+#   become: yes
+#   become_user: opv
