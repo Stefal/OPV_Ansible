@@ -17,6 +17,7 @@
    - python-pyproj
    - python-scipy
    - python-yaml
+   - python-pip
    - wget
 
 - name: Extract ceres-solver-1.13.0.tar.gz
