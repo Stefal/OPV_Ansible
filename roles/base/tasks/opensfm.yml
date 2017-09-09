@@ -20,14 +20,14 @@
    - python-pip
    - wget
 
-- name: Extract ceres-solver-1.13.0.tar.gz
+- name: Extract ceres-solver-1.10.0.tar.gz
   unarchive:
-    src: ceres-solver-1.13.0.tar.gz
+    src: ceres-solver-1.10.0.tar.gz
     dest: /root
 
 # Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS
-- name: Install ceres-solver-1.13.0
-  command: cp -rp /root/ceres-solver-1.13.0/usr /.
+- name: Install ceres-solver-1.10.0
+  command: cp -rp /root/ceres-solver-1.10.0/usr /.
 
 - name: Extract opengv.tar.gz
   unarchive:
@@ -54,4 +54,3 @@
     exit 0
   args:
     executable: /bin/bash
-  run_once: true
