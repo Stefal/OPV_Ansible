@@ -42,20 +42,16 @@
 ### Install opengv in our virtualenv ###
 #######################################
 
-- name: Create dist-packages directory
-  file:
-    path: "/home/opv/venvs/opv/lib/python3.5/dist-packages"
-    state: directory
-    owner: opv
-    group: opv
-    recurse: yes
-    mode: 0755
 
 - name: Install OpenSfM
-  pip:
-    name: "git+{{ item }}"
-    editable: false
-    extra_args: "--process-dependency-links"
-    state: latest
-  with_items:
-    - https://github.com/mapillary/OpenSfM
+  shell: |
+    cd /root
+    git clone https://github.com/mapillary/OpenSfM
+    cd OpenSfM
+    pip install -r requirements.txt
+    python setup.py build
+    python setup.py install
+    exit 0
+  args:
+    executable: /bin/bash
+  run_once: true
