@@ -46,7 +46,7 @@
 - name: Install OpenSfM
   shell: |
     cd /root
-    git clone https://github.com/mapillary/OpenSfM
+    git clone https://github.com/OpenPathView/OpenSfM.git
     cd OpenSfM
     pip install -r requirements.txt
     python setup.py build
