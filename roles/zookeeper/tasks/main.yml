@@ -1,0 +1,28 @@
+- name: Install Zookeeper
+  apt: name={{ item }} state=present
+  with_items:
+   - zookeeper
+   - zookeeperd
+
+- name: Configure Zookeeper
+  template:
+    src: "{{ item }}"
+    dest: "/etc/zookeeper/conf/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - myid
+    - zoo.cfg
+  notify:
+  - Restart Zookeeper
+
+- name: Enable nodemanager services and start it
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - zookeeper
+
+- meta: flush_handlers

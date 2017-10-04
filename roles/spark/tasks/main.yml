@@ -1,0 +1,65 @@
+- name: Install Java
+  apt: name={{ item }} state=present
+  with_items:
+   - openjdk-8-jdk
+
+- name: Extract spark-2.2.0-bin-hadoop2.7.tgz
+  unarchive:
+    src: spark-2.2.0-bin-hadoop2.7.tgz
+    dest: /opt
+    creates: /opt/spark-2.2.0-bin-hadoop2.7/LICENSE
+
+- name: Change owner of spark directory
+  file:
+    path: "/opt/spark-2.2.0-bin-hadoop2.7"
+    state: directory
+    owner: opv
+    group: opv
+    recurse: yes
+
+- name: Setup Spark configuration
+  template:
+    src: "{{ item }}"
+    dest: "/opt/spark-2.2.0-bin-hadoop2.7/conf/{{ item }}"
+    mode: 0744
+  with_items:
+    - spark-defaults.conf
+    - spark-env.sh
+
+- name: Setup Spark services
+  template:
+    src: "{{ item }}.service"
+    dest: "/etc/systemd/system/spark-{{ item }}.service"
+  with_items:
+    - master
+    - slave
+
+- name: Reload Systemctl
+  command: systemctl daemon-reload
+
+- meta: flush_handlers
+
+- name: Launch Spartk Master
+  service:
+    name: spark-master
+    state: started
+    enabled: yes
+
+- name: Launch Spartk Slave
+  service:
+    name: spark-slave
+    state: started
+    enabled: yes
+
+- meta: flush_handlers
+
+- name: Add make_campaign.py script
+  template:
+    src: "{{ item }}"
+    dest: "/home/opv/dev/{{ item }}"
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - make_campaign.py
+    - launch.sh

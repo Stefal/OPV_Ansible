@@ -3,3 +3,9 @@ postgresPasswdOPV: Testopv42
 idMallette: POC
 OPVMaster: OPV_Master
 taskPerWorker: 4
+
+
+spark_user: opv
+zookeeper_group: all
+spark_master_group: all
+spark_max_container: 4

@@ -20,7 +20,5 @@
    - imagemagick
 
 - include: postgresql.yml
-- include: redis.yml
 - include: opv.yml
-- include: airflow.yml
 - include: hugin.yml
