@@ -50,6 +50,16 @@
   with_items:
     - api
     - dm
+    - db-migrate
+
+- meta: flush_handlers
+
+- name: Create or migrate OPV postgresql database
+  shell: "/home/opv/bin/launch_db-migrate.sh"
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: opv
 
 - meta: flush_handlers
 
