@@ -1,6 +1,6 @@
 # OPV_Ansible
 
-This playbook install all services of a CUL (postgres, airflow and OPV services). To use it you have to:
+This playbook install all services of a CUL (postgres, Spark and OPV services). To use it you have to:
 * Change the hosts file to specify on wich host you want to install a master and workers
 * Change some parameters in group_vars/all to change password of postgres and some other stuff
 
@@ -49,20 +49,52 @@ For an example, you can look at the hosts_example file.
 This file is use to precise some information as the password for database of airflow and OPV.
 
 ```
-postgresPasswdAirflow: Testairflow42
-postgresPasswdOPV: Testopv42
+########################
+## Main configuration ##
+########################
+
+# The id of the CUL (mallette is the old name of CUL)
 idMallette: POC
+
+# The OPV_Master
 OPVMaster: OPV_Master
+
+#############################
+## Postresql configuration ##
+#############################
+
+# The password for opv database
+postgresPasswdOPV: Testopv42
+
+#########################
+## Spark configuration ##
+#########################
+
+# The zookeeper group
+zookeeper_group: all
+
+# The spark master group
+spark_master_group: all
+
+# The use to use for Spark Worker
+spark_user: opv
+
+# The max container to use on each worker
+spark_max_container: 4
 ```
 
-* postgresPasswdAirflow: The password of the postgresql database airflow
-* postgresPasswdOPV: The password of the posgresql database opv
 * idMallete: The id of the CUL you want to build
-* OPV_Master: Just a way to set an alias to the master (use OPV_Master instead of the master's hostname)
+* OPVMaster: Just a way to set an alias to the master (use OPV_Master instead of the master's hostname)
+* postgresPasswdOPV: The password of the posgresql database opv
+* zookeeper_group: Group to identify on which host we have to install zookeeper [by default, all node]
+* spark_master_group: Group to identify on which host we have to install Spark (master and worker). [by default, all node]
+* spark_user: The username to use for Spark executor
+* spark_max_container: The maximum executor than a worker can have
 
 
 # Launch the playbooks
 
+**The first thinks that this script is to download Spark**
 
 ## Install all dependencies
 
@@ -80,11 +112,10 @@ This playbooks will:
 * Stop anything that is running on the CUL (all services will be stop)
 * Choose the Master
     * Start all services in it
-    * Configure airflow and initialize database
+    * Configure and start Spark
     * Create OPV database
 * Activate worker
     * Start worker on the host
-
 
 
 ```
@@ -94,7 +125,6 @@ This playbooks will:
 ## Do both
 
 To do the install and configure step as one, you can use:
-
 
 
 ```
