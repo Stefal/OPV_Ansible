@@ -1,11 +1,32 @@
-postgresPasswdAirflow: Testairflow42
-postgresPasswdOPV: Testopv42
+########################
+## Main configuration ##
+########################
+
+# The id of the CUL (mallette is the old name of CUL)
 idMallette: POC
+
+# The OPV_Master
 OPVMaster: OPV_Master
-taskPerWorker: 4
 
+#############################
+## Postresql configuration ##
+#############################
 
-spark_user: opv
+# The password for opv database
+postgresPasswdOPV: Testopv42
+
+#########################
+## Spark configuration ##
+#########################
+
+# The zookeeper group
 zookeeper_group: all
+
+# The spark master group
 spark_master_group: all
+
+# The use to use for Spark Worker
+spark_user: opv
+
+# The max container to use on each worker
 spark_max_container: 4
