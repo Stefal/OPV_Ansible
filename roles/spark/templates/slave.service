@@ -1,0 +1,16 @@
+[Unit]
+Description=Spark Slave
+After=network-online.target
+
+[Service]
+Type=forking
+User={{ spark_user }}
+ExecStart=/opt/spark-2.2.0-bin-hadoop2.7/sbin/start-slave.sh spark://{% for host in groups[spark_master_group] %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:7077{%- if not loop.last %},{% endif -%}{% endfor %}
+
+
+ExecStop=/opt/spark-2.2.0-bin-hadoop2.7/sbin/stop-slave.sh
+Restart=on-failure
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+
+[Install]
+WantedBy=multi-user.target
