@@ -20,23 +20,32 @@
    - python-pip
    - wget
 
+- name: Create OpenSfM directory
+  file:
+    path: "/opt/OpenSfM"
+    state: directory
+    owner: root
+    group: root
+    recurse: yes
+    mode: 0755
+
 - name: Extract ceres-solver-1.10.0.tar.gz
   unarchive:
     src: ceres-solver-1.10.0.tar.gz
-    dest: /root
+    dest: /opt/OpenSfM
 
-# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS
+# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS => Et c'est de la grosse MERDE, Merci de faire un .deb, m'enfin ca reste comme ca pour le moment
 - name: Install ceres-solver-1.10.0
-  command: cp -rp /root/ceres-solver-1.10.0/usr /.
+  command: cp -rp /opt/OpenSfM/ceres-solver-1.10.0/usr /.
 
 - name: Extract opengv.tar.gz
   unarchive:
     src: opengv.tar.gz
-    dest: /root
+    dest: /opt/OpenSfM
 
-# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS
+# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS  => Et c'est de la grosse MERDE, Merci de faire un .deb, m'enfin ca reste comme ca pour le moment
 - name: Install opengv
-  command: cp -rp /root/opengv/usr /.
+  command: cp -rp /opt/OpenSfM/opengv/usr /.
 
 ########################################
 ### Install opengv in our virtualenv ###
@@ -45,7 +54,7 @@
 
 - name: Install OpenSfM
   shell: |
-    cd /root
+    cd /opt/OpenSfM
     git clone https://github.com/OpenPathView/OpenSfM.git
     cd OpenSfM
     pip install -r requirements.txt
