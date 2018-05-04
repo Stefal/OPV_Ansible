@@ -7,16 +7,16 @@
 
 - include: build_hosts_file.yml
 
-- name: Stop airflow services
-  service:
-    name: "airflow-{{ item }}"
-    state: stopped
-    enabled: no
-  with_items:
-    - webserver
-    - scheduler
-    - flower
-    - worker
+# - name: Stop airflow services
+#   service:
+#     name: "airflow-{{ item }}"
+#     state: stopped
+#     enabled: no
+#   with_items:
+#     - webserver
+#     - scheduler
+#     - flower
+#     - worker
 
 - name: Stop OPV service
   service:
@@ -33,24 +33,24 @@
     state: stopped
     enabled: no
 
-- name: Stop Redis
-  service:
-    name: "postgresql"
-    state: stopped
-    enabled: no
-
-- name: Configure airflow
-  template:
-    src: airflow.cfg
-    dest: /home/opv/airflow/airflow.cfg
-    owner: opv
-    group: opv
-    mode: 0744
-
-- name: Setup dag
-  template:
-    src: campaign.py
-    dest: /home/opv/airflow/dags/campaign.py
-    owner: opv
-    group: opv
-    mode: 0744
+# - name: Stop Redis
+#   service:
+#     name: "postgresql"
+#     state: stopped
+#     enabled: no
+#
+# - name: Configure airflow
+#   template:
+#     src: airflow.cfg
+#     dest: /home/opv/airflow/airflow.cfg
+#     owner: opv
+#     group: opv
+#     mode: 0744
+#
+# - name: Setup dag
+#   template:
+#     src: campaign.py
+#     dest: /home/opv/airflow/dags/campaign.py
+#     owner: opv
+#     group: opv
+#     mode: 0744

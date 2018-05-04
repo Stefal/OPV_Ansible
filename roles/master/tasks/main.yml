@@ -8,11 +8,11 @@
     state: started
     enabled: yes
 
-- name: Start Redis
-  service:
-    name: "redis"
-    state: started
-    enabled: yes
-
-- include: airflow.yml
+# - name: Start Redis
+#   service:
+#     name: "redis"
+#     state: started
+#     enabled: yes
+#
+# - include: airflow.yml
 - include: opv.yml
