@@ -10,56 +10,42 @@
    - libgoogle-glog-dev
    - libopencv-dev
    - libsuitesparse-dev
-   - python-dev
-   - python-numpy
-   - python-opencv
-   - python-pyexiv2
-   - python-pyproj
-   - python-scipy
-   - python-yaml
-   - python-pip
+   - python3-dev
+   - python3-numpy
+   - python3-pip
+   - python3-pyproj
+   - python3-scipy
+   - python3-yaml
    - wget
+   - vim
+   - unzip
 
-- name: Create OpenSfM directory
-  file:
-    path: "/opt/OpenSfM"
-    state: directory
-    owner: root
-    group: root
-    recurse: yes
-    mode: 0755
-
-- name: Extract ceres-solver-1.10.0.tar.gz
+- name: Extract opengv and ceres
   unarchive:
-    src: ceres-solver-1.10.0.tar.gz
-    dest: /opt/OpenSfM
+    src: osfmLib.zip
+    dest: /home/opv/
 
-# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS => Et c'est de la grosse MERDE, Merci de faire un .deb, m'enfin ca reste comme ca pour le moment
-- name: Install ceres-solver-1.10.0
-  command: cp -rp /opt/OpenSfM/ceres-solver-1.10.0/usr /.
-
-- name: Extract opengv.tar.gz
-  unarchive:
-    src: opengv.tar.gz
-    dest: /opt/OpenSfM
-
-# Alors la je me suis pas fait chier mais alors pas du tout du tout. Du pur KISS  => Et c'est de la grosse MERDE, Merci de faire un .deb, m'enfin ca reste comme ca pour le moment
-- name: Install opengv
-  command: cp -rp /opt/OpenSfM/opengv/usr /.
-
-########################################
-### Install opengv in our virtualenv ###
-#######################################
-
-
-- name: Install OpenSfM
+- name: Install opengv and ceres
   shell: |
-    cd /opt/OpenSfM
+    cp /home/opv/osfmLib/pyopengv.so /home/opv/venvs/opv/lib/python3.5/site-packages/
+    cp /home/opv/osfmLib/ceres/usr / -r
+    exit 0
+  args:
+    executable: /bin/bash
+
+- name: Install opencv and opensfm
+  become: yes
+  become_user: opv
+  shell: |
+    source /home/opv/venvs/opv/bin/activate
+    pip3 install opencv-python
+
+    cd /home/opv/
     git clone https://github.com/OpenPathView/OpenSfM.git
     cd OpenSfM
-    pip install -r requirements.txt
-    python setup.py build
-    python setup.py install
+    pip3 install -r requirements.txt
+    python3 setup.py build
+    python3 setup.py install
     exit 0
   args:
     executable: /bin/bash
