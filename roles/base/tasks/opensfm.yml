@@ -1,0 +1,51 @@
+- name: Install opensfm dependencies
+  apt: name={{ item }} state=present
+  with_items:
+   - build-essential
+   - cmake
+   - git
+   - libatlas-base-dev
+   - libboost-python-dev
+   - libeigen3-dev
+   - libgoogle-glog-dev
+   - libopencv-dev
+   - libsuitesparse-dev
+   - python3-dev
+   - python3-numpy
+   - python3-pip
+   - python3-pyproj
+   - python3-scipy
+   - python3-yaml
+   - wget
+   - vim
+   - unzip
+
+- name: Extract opengv and ceres
+  unarchive:
+    src: osfmLib.zip
+    dest: /home/opv/
+
+- name: Install opengv and ceres
+  shell: |
+    cp /home/opv/osfmLib/pyopengv.so /home/opv/venvs/opv/lib/python3.5/site-packages/
+    cp /home/opv/osfmLib/ceres/usr / -r
+    exit 0
+  args:
+    executable: /bin/bash
+
+- name: Install opencv and opensfm
+  become: yes
+  become_user: opv
+  shell: |
+    source /home/opv/venvs/opv/bin/activate
+    pip3 install opencv-python
+
+    cd /home/opv/
+    git clone https://github.com/OpenPathView/OpenSfM.git
+    cd OpenSfM
+    pip3 install -r requirements.txt
+    python3 setup.py build
+    python3 setup.py install
+    exit 0
+  args:
+    executable: /bin/bash

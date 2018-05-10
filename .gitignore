@@ -1,2 +1,4 @@
 inventories/*
 hosts
+roles/spark/files/spark*
+
