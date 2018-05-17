@@ -62,11 +62,6 @@
     dest: /home/opv/.bashrc
     line: "source ~/venvs/opv/bin/activate"
 
-- name: Extract opv-status
-  unarchive:
-    src: opv-status.zip
-    dest: /var/www/html
-
 - name: Setup OPV bin script
   template:
     src: "launch_{{ item }}.sh"
