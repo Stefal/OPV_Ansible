@@ -18,8 +18,10 @@
    - python3-pil
    - exempi
    - imagemagick
+   - unzip
 
 - include: postgresql.yml
 - include: opv.yml
+- include: opv-status.yml
 - include: hugin.yml
 - include: opensfm.yml

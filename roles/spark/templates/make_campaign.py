@@ -8,22 +8,22 @@ from pyspark.sql import SparkSession
 
 import sys
 import json
-from opv_api_client import RestClient, Filter
+from opv_api_client import RestClient
 from opv_api_client.ressources import Campaign
-from opv_tasks.utils import find_task
 from opv_tasks.__main__ import run
 from opv_directorymanagerclient import DirectoryManagerClient, Protocol
 
-def get_campagain_by_name(campaign_name):
+
+def get_campagain_by_id(campaign_id, id_malette):
     # Get all the campaigns
     db_client = RestClient("http://OPV_Master:5000")
-    #campaigns = db_client.make_all(Campaign)
-    campaigns = db_client.make_all(Campaign, filters=(Filter("name") == campaign_name))
+    # campaigns = db_client.make_all(Campaign)
+    campaigns = db_client.make(Campaign, campaign_id, id_malette)
 
     return campaigns
 
-def launchAllOPVTask(data):
 
+def launchAllOPVTask(data):
     options = json.loads(data)
 
     # Get the address to Directory Manager
@@ -47,28 +47,26 @@ def launchAllOPVTask(data):
     except Exception as e:
         print(str(e))
 
+
 if __name__ == "__main__":
-    # Ce searit mieu avec les ID
-    campaign_name = "testCampaign"
-    if len(sys.argv) >= 2:
-        campaign_name = sys.argv[1]
+    campaign_id = 1
+    if len(sys.argv) >= 3:
+        campaign_id = int(sys.argv[1])
+        id_malette = int(sys.argv[2])
+
+    campaign = get_campagain_by_id(campaign_id, id_malette)
 
     spark = SparkSession \
         .builder \
-        .appName("Make Campaign '%s'" % campaign_name) \
+        .appName("Make Campaign '{}' (id: {})".format(campaign.name, campaign.id_campaign)) \
         .getOrCreate()
 
     sc = spark.sparkContext
 
-    campaigns = get_campagain_by_name(campaign_name)
+    results = [json.dumps({"id_malette": lot.id_malette, "id_lot": lot.id_lot}) for lot in campaign.lots]
 
-    results = [[json.dumps({"id_malette": lot.id_malette,"id_lot": lot.id_lot}) for lot in campaign.lots] for campaign in campaigns]
+    lots = sc.parallelize(results, len(results))
 
-    if len(results) == 0:
-        raise Exception("No '%s' campaing found!" % campaign_name)
-
-    lots = sc.parallelize(results[0], len(results[0]))
-
-    print("%s panorama to make!" % len(results[0]))
+    print("%s panorama to make!" % len(results))
 
     lots.map(lambda x: launchAllOPVTask(x)).collect()

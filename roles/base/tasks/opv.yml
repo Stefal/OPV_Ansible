@@ -48,11 +48,12 @@
     extra_args: "--process-dependency-links"
     state: latest
   with_items:
-    - https://github.com/OpenPathView/DirectoryManager
+    - https://github.com/OpenPathView/DirectoryManager.git
     - https://github.com/OpenPathView/OPV_DBRest.git
     - https://github.com/OpenPathView/OPV_importData.git
     - https://github.com/OpenPathView/OPV_Tasks.git
     - https://github.com/OpenPathView/OPV_Dags.git
+    - https://github.com/OpenPathView/opv-status-api.git
   become: yes
   become_user: opv
 
@@ -71,6 +72,7 @@
   with_items:
     - api
     - dm
+    - status-api
 
 - name: Setup OPV service
   template:
@@ -82,6 +84,7 @@
   with_items:
     - api
     - dm
+    - status-api
 
 - name: Reload Systemctl
   command: systemctl daemon-reload

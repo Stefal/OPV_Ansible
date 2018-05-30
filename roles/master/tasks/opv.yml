@@ -51,6 +51,7 @@
     - api
     - dm
     - db-migrate
+    - status-api
 
 - meta: flush_handlers
 
@@ -71,3 +72,4 @@
   with_items:
     - api
     - dm
+    - status-api

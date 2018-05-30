@@ -1,0 +1,65 @@
+- name: Install opv-status dependencies
+  apt: name={{ item }} state=present
+  with_items:
+   - npm
+   - nginx
+
+- name: Clone opv-status
+  git:
+    repo: https://github.com/OpenPathView/opv-status.git
+    dest: /home/opv/opv-status
+    force: yes
+  become: yes
+  become_user: opv
+
+- name: Download nvm
+  become: yes
+  become_user: opv
+  get_url:
+    url: https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh
+    dest: /home/opv/dev/
+
+- name: Install nvm
+  become: yes
+  become_user: opv
+  command: bash /home/opv/dev/install.sh
+
+- name: Delete nvm install script
+  file:
+    state: absent
+    path: /home/opv/dev/install.sh
+
+- name: Install node
+  become: yes
+  become_user: opv
+  command: bash -c '. ~/.nvm/nvm.sh; nvm install node'
+
+- name: Install opv-status npm dependency
+  become: yes
+  become_user: opv
+  command: bash -c '. ~/.nvm/nvm.sh; npm install'
+  args:
+    chdir: ~/opv-status
+
+- name: Build opv-status
+  become: yes
+  become_user: opv
+  command: bash -c '. ~/.nvm/nvm.sh; npm run build'
+  args:
+    chdir: ~/opv-status
+
+- name: Clear nginx website
+  file:
+    state: absent
+    path: /var/www/html/
+
+- name: Copy opv-status to nginx
+  command: cp -r /home/opv/opv-status/dist/ /var/www/
+
+- name: Rename opv-status in nginx
+  command: mv /var/www/dist /var/www/html
+
+- name: Remove opv-status temp folder
+  file:
+    state: absent
+    path: /home/opv/opv-status
