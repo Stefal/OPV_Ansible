@@ -3,15 +3,15 @@
   with_items:
    - openjdk-8-jdk
 
-- name: Extract spark-2.2.0-bin-hadoop2.7.tgz
+- name: Extract spark-2.2.1-bin-hadoop2.7.tgz
   unarchive:
-    src: spark-2.2.0-bin-hadoop2.7.tgz
+    src: spark-2.2.1-bin-hadoop2.7.tgz
     dest: /opt
-    creates: /opt/spark-2.2.0-bin-hadoop2.7/LICENSE
+    creates: /opt/spark-2.2.1-bin-hadoop2.7/LICENSE
 
 - name: Change owner of spark directory
   file:
-    path: "/opt/spark-2.2.0-bin-hadoop2.7"
+    path: "/opt/spark-2.2.1-bin-hadoop2.7"
     state: directory
     owner: opv
     group: opv
@@ -20,7 +20,7 @@
 - name: Setup Spark configuration
   template:
     src: "{{ item }}"
-    dest: "/opt/spark-2.2.0-bin-hadoop2.7/conf/{{ item }}"
+    dest: "/opt/spark-2.2.1-bin-hadoop2.7/conf/{{ item }}"
     mode: 0744
   with_items:
     - spark-defaults.conf
