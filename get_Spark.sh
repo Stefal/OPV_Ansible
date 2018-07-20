@@ -12,5 +12,6 @@ if [ -f ./roles/spark/files/${filename} ] ; then
 	echo "You already have Spark!"		
 else
 	echo "Downloading Spark ..."
-	wget "http://apache.crihan.fr/dist/spark/spark-${spark_version}/${filename}" -O "${filepath}"
+	wget "https://storage.openpathview.fr/ansible/files/${filename}" -O "${filepath}"
 fi
+
