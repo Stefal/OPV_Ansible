@@ -56,6 +56,9 @@
     - https://github.com/OpenPathView/opv-status-api.git
   become: yes
   become_user: opv
+  environment:
+    LC_ALL: "en_US.UTF-8"    # ensure local is set, fixes bug with ASCII decode error
+    LC_CTYPE: "en_US.UTF-8"  # ensure local is set, fixes bug with ASCII decode error
 
 - name: Add virtualenv activation in bashrc file for opv user
   lineinfile:
