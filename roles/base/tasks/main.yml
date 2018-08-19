@@ -19,6 +19,9 @@
    - exempi
    - imagemagick
    - unzip
+   - htop
+   - lm-sensors
+   - iptraf
 
 - include: postgresql.yml
 - include: opv.yml
