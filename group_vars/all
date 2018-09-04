@@ -3,7 +3,7 @@
 ########################
 
 # The id of the CUL (mallette is the old name of CUL)
-idMallette: POC
+idMallette: 42
 
 # The OPV_Master
 OPVMaster: OPV_Master
