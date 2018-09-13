@@ -29,14 +29,27 @@ lxc launch ubuntu:16.04 $poil2Name
 echo Done
 
 echo ------------------------------------
+echo "Wait for container to start"
+ipPoil1=`lxc info $poil1Name | grep -P "eth0:\tinet\t" | awk '{print $3}'`
+ipPoil2=`lxc info $poil2Name | grep -P "eth0:\tinet\t" | awk '{print $3}'`
+
+while [ -z $ipPoil1 ] || [ -z $ipPoil2 ]
+do
+	ipPoil1=`lxc info $poil1Name | grep -P "eth0:\tinet\t" | awk '{print $3}'`
+	ipPoil2=`lxc info $poil2Name | grep -P "eth0:\tinet\t" | awk '{print $3}'`
+done
+echo Done
+
+echo ------------------------------------
 echo "Installing python on lxc container"
+lxc exec $poil1Name -- apt-get update -y
+lxc exec $poil2Name -- apt-get update -y
 lxc exec $poil1Name -- apt-get install python -y
 lxc exec $poil2Name -- apt-get install python -y
 echo Done
 
 echo ------------------------------------
 echo "Setup ssh key"
-
 lxc exec $poil1Name -- bash -c "echo $sshKey > /root/.ssh/authorized_keys"
 lxc exec $poil2Name -- bash -c "echo $sshKey > ~/.ssh/authorized_keys"
 echo Done
@@ -44,9 +57,6 @@ echo Done
 
 echo ------------------------------------
 echo "Add container to ssh know host"
-ipPoil1=`lxc info $poil1Name | grep -P "eth0:\tinet\t" | awk '{print $3}'`
-ipPoil2=`lxc info $poil2Name | grep -P "eth0:\tinet\t" | awk '{print $3}'`
-
 ssh root@$ipPoil1 -o StrictHostKeyChecking=no exit
 ssh root@$ipPoil2 -o StrictHostKeyChecking=no exit
 echo Done
