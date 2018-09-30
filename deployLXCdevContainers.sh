@@ -40,6 +40,12 @@ do
 done
 echo Done
 
+echo -----------------------------------
+echo "Removing existing public key in ssh known_hosts"
+ssh-keygen -f ~/.ssh/known_hosts -R $ipPoil1
+ssh-keygen -f ~/.ssh/known_hosts -R $ipPoil2
+echo Done
+
 echo ------------------------------------
 echo "Installing python on lxc container"
 lxc exec $poil1Name -- apt-get update -y
