@@ -52,6 +52,7 @@
     - dm
     - db-migrate
     - status-api
+    - graph-api
 
 - meta: flush_handlers
 
@@ -73,3 +74,4 @@
     - api
     - dm
     - status-api
+    - graph-api
