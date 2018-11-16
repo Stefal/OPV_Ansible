@@ -2,8 +2,8 @@
 ### Airflow ###
 ###############
 
-# - name: Launch airflow worker
-#   service:
-#     name: "airflow-worker"
-#     state: started
-#     enabled: yes
+- name: Start Celery worker
+  service:
+    name: "celery"
+    state: started
+    enabled: yes

@@ -1,0 +1,7 @@
+- name: Add celery configuration
+  template:
+    src: "celery.j2"
+    dest: "/home/opv/conf/celery"
+    owner: opv
+    group: opv
+    mode: 0755

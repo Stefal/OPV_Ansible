@@ -1,6 +1,6 @@
 # OPV_Ansible
 
-This playbook install all services of a CUL (postgres, Spark and OPV services). To use it you have to:
+This playbook install all services of a CUL (postgres, OPV services, Celery and Flower). To use it you have to:
 * Change the hosts file to specify on wich host you want to install a master and workers
 * Change some parameters in group_vars/all to change password of postgres and some other stuff
 
@@ -54,7 +54,7 @@ This file is use to precise some information as the password for database of air
 ########################
 
 # The id of the CUL (mallette is the old name of CUL)
-idMallette: POC
+idMallette: 42
 
 # The OPV_Master
 OPVMaster: OPV_Master
@@ -66,35 +66,21 @@ OPVMaster: OPV_Master
 # The password for opv database
 postgresPasswdOPV: Testopv42
 
-#########################
-## Spark configuration ##
-#########################
+##########################
+## Celery configuration ##
+##########################
 
-# The zookeeper group
-zookeeper_group: all
-
-# The spark master group
-spark_master_group: all
-
-# The use to use for Spark Worker
-spark_user: opv
-
-# The max container to use on each worker
-spark_max_container: 4
+celery_concurency: 4
 ```
 
 * idMallete: The id of the CUL you want to build
 * OPVMaster: Just a way to set an alias to the master (use OPV_Master instead of the master's hostname)
 * postgresPasswdOPV: The password of the posgresql database opv
-* zookeeper_group: Group to identify on which host we have to install zookeeper [by default, all node]
-* spark_master_group: Group to identify on which host we have to install Spark (master and worker). [by default, all node]
-* spark_user: The username to use for Spark executor
-* spark_max_container: The maximum executor than a worker can have
+* celery_concurency: The maximum executor than a worker can have
 
 
 # Launch the playbooks
 
-**The first thinks that this script is to download Spark**
 
 ## Install all dependencies
 
@@ -129,4 +115,14 @@ To do the install and configure step as one, you can use:
 
 ```
 ./launch.sh
+```
+
+
+# Build a campaign
+
+On the master:
+
+```bash
+su - opv
+opv-celery-campaign ID_CAMPAIGN ID_MALLETTE
 ```
