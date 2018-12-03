@@ -1,0 +1,16 @@
+[Unit]
+Description=OPV graph api
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=opv
+
+ExecStart=/home/opv/bin/launch_graph-api.sh
+
+Restart=on-failure
+
+
+[Install]
+WantedBy=multi-user.target
