@@ -59,6 +59,12 @@
 - name: Rename opv-status in nginx
   command: mv /var/www/dist /var/www/html
 
+- name: Create the symlink for exposing celery logs
+  file:
+    src: /home/opv/logs/celery
+    dest: /var/www/html/celery
+    state: link
+
 - name: Remove opv-status temp folder
   file:
     state: absent

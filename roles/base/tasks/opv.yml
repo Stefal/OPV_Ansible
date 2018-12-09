@@ -18,6 +18,7 @@
     - data/dm
     - dev
     - logs
+    - logs/celery
     - venvs
 
 ###########################
