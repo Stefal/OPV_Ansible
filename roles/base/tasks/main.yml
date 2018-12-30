@@ -22,6 +22,7 @@
    - htop
    - lm-sensors
    - iptraf
+   - python-setuptools
 
 - include: postgresql.yml
 - include: redis.yml

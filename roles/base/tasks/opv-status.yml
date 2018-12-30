@@ -29,11 +29,16 @@
     state: absent
     path: /home/opv/dev/install.sh
 
-- name: Install node
+- name: Install node v9
   become: yes
   become_user: opv
-  command: bash -c '. ~/.nvm/nvm.sh; nvm install node'
+  command: bash -c '. ~/.nvm/nvm.sh; nvm install v9'
 
+- name: Use node v9
+  become: yes
+  become_user: opv
+  command: bash -c '. ~/.nvm/nvm.sh; nvm alias default v9'
+  
 - name: Install opv-status npm dependency
   become: yes
   become_user: opv
