@@ -1,0 +1,14 @@
+[Unit]
+Description=Flower Service
+After=network.target
+
+[Service]
+Type=simple
+Restart=on-failure
+User=opv
+Group=opv
+WorkingDirectory=/home/opv
+ExecStart=/home/opv/venvs/opv/bin/flower -A opv_celery.tasks --address=0.0.0.0
+
+[Install]
+WantedBy=multi-user.target

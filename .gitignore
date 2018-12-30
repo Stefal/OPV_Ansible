@@ -1,4 +1,5 @@
 inventories/*
 hosts
 roles/spark/files/spark*
-
+configure.retry
+install.retry

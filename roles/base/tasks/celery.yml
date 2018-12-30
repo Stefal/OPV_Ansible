@@ -1,0 +1,46 @@
+- name: Install Celery, Flower and Redis
+  pip:
+    name: "{{ item }}"
+    extra_args: "--upgrade"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+    state: latest
+    editable: false
+  with_items:
+    - celery
+    - redis
+    - flower
+  become: yes
+  become_user: opv
+
+- name: Install OPV_Celery modules
+  pip:
+    name: "git+{{ item }}"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+    editable: false
+    extra_args: "--process-dependency-links"
+    state: latest
+  with_items:
+    - https://github.com/OpenPathView/OPV_Celery
+  become: yes
+  become_user: opv
+  environment:
+    LC_ALL: "en_US.UTF-8"    # ensure local is set, fixes bug with ASCII decode error
+    LC_CTYPE: "en_US.UTF-8"  # ensure local is set, fixes bug with ASCII decode error
+
+- name: Add celery worker and flower services
+  template:
+    src: "{{ item }}.systemd"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    owner: opv
+    group: opv
+    mode: 0755
+  with_items:
+    - celery
+    - flower
+
+- name: Reload systemctl
+  command: systemctl daemon-reload
+
+- meta: flush_handlers

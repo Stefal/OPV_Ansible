@@ -2,4 +2,4 @@
   service: name=postgresql state=restarted
 
 - name: Restart Redis
-  service: name=redis state=restarted
+  service: name=redis-server state=restarted

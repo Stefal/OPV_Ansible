@@ -71,10 +71,10 @@ echo ------------------------------------
 echo "Add opv_master line in /etc/host"
 lineOpvMaster=`cat /etc/hosts | grep opv_master -n | awk '{print $1}' FS=":"`
 
-if ! [ -z "$lineOpvMaster" ]
-then
-  sudo sed -i "$lineOpvMaster d" /etc/hosts
-fi
+for i in $lineOpvMaster
+do
+  sudo sed -i "${i}s/.*/#&/" /etc/hosts
+done
 
 echo $ipPoil1 opv_master | sudo tee -a /etc/hosts
 echo Done
