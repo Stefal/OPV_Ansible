@@ -6,10 +6,11 @@ sshKey=`cat ~/.ssh/id_rsa.pub`
 poil1Name="master"
 poil2Name="worker0"
 
-if ! [ -x "$lxcExistb"]
+if ! [ -x "$lxcExist" ]
 then
   echo ------------------------------------
-  echo "You must install lxc and lxd before using this script"
+  echo "You must install and init lxd before using this script"
+  echo "See this official wiki : https://linuxcontainers.org/fr/lxd/getting-started-cli/"
   echo ------------------------------------
   exit 1
 fi
@@ -18,6 +19,7 @@ if [ -z "$sshKey" ]
 then
   echo ------------------------------------
   echo "You must generate an ssh key before using this script"
+  echo "you can execute : ssh-keygen"
   echo ------------------------------------
   exit 1
 fi

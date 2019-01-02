@@ -120,6 +120,10 @@ To do the install and configure step as one, you can use:
 
 # Build a campaign
 
+Connect to the master:
+```
+ssh root@opv_master
+```
 On the master:
 
 ```bash
