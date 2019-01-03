@@ -8,7 +8,7 @@ if ! [ -x "$ansibleExist" ]
 then
   echo ------------------------------
   echo You must install ansible before using this script
-  echo you can execute : sudo apt install ansible
+  echo See the official wiki : https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html?extIdCarryOver=true&sc_cid=701f2000001OH7YAAW#installing-the-control-machine
   echo ------------------------------
   exit 1
 fi

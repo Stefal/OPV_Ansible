@@ -9,9 +9,8 @@ poil2Name="worker0"
 if ! [ -x "$lxcExist" ]
 then
   echo ------------------------------------
-  echo "You must install lxd before using this script"
-  echo "then restart your user session"
-  echo "then execute : sudo lxd init"
+  echo "You must install and init lxd before using this script"
+  echo "See this official wiki : https://linuxcontainers.org/fr/lxd/getting-started-cli/"
   echo ------------------------------------
   exit 1
 fi
