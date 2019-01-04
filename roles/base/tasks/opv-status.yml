@@ -6,7 +6,7 @@
 
 - name: Clone opv-status
   git:
-    repo: https://github.com/OpenPathView/opv-status.git
+    repo: https://github.com/Stefal/opv-status.git
     dest: /home/opv/opv-status
     force: yes
   become: yes
