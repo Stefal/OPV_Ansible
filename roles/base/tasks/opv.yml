@@ -25,7 +25,20 @@
 ### Installation de OPV ###
 ###########################
 
-- name: Update pip, wheel and setuptools
+- name: Update pip to last release with --process-dependency-links support
+  pip:
+    name: pip==18.1
+    extra_args: "--upgrade"
+    virtualenv: /home/opv/venvs/opv
+    virtualenv_command: pyvenv
+    state: latest
+    editable: false
+  become: yes
+  become_user: opv
+
+
+
+- name: Update wheel and setuptools
   pip:
     name: "{{ item }}"
     extra_args: "--upgrade"
@@ -34,7 +47,6 @@
     state: latest
     editable: false
   with_items:
-    - pip
     - wheel
     - setuptools
   become: yes
