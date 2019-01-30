@@ -36,8 +36,6 @@
   become: yes
   become_user: opv
 
-
-
 - name: Update wheel and setuptools
   pip:
     name: "{{ item }}"

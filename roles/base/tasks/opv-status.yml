@@ -16,7 +16,7 @@
   become: yes
   become_user: opv
   get_url:
-    url: https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh
+    url: https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh
     dest: /home/opv/dev/
 
 - name: Install nvm
@@ -32,12 +32,12 @@
 - name: Install node v9
   become: yes
   become_user: opv
-  command: bash -c '. ~/.nvm/nvm.sh; nvm install v9'
+  command: bash -c '. ~/.nvm/nvm.sh; nvm install v10'
 
 - name: Use node v9
   become: yes
   become_user: opv
-  command: bash -c '. ~/.nvm/nvm.sh; nvm alias default v9'
+  command: bash -c '. ~/.nvm/nvm.sh; nvm alias default v10'
   
 - name: Install opv-status npm dependency
   become: yes
