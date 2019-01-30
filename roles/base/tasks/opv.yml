@@ -51,8 +51,8 @@
   with_items:
     - https://github.com/OpenPathView/DirectoryManager.git
     - https://github.com/OpenPathView/OPV_DBRest.git
-    - https://github.com/OpenPathView/OPV_importData.git
-    - https://github.com/OpenPathView/OPV_Tasks.git
+    - https://github.com/Stefal/OPV_importData.git@V4MPOD
+    - https://github.com/Stefal/OPV_Tasks.git@V4MPOD
     - https://github.com/OpenPathView/OPV_Dags.git
     - https://github.com/OpenPathView/opv-status-api.git
     - https://github.com/OpenPathView/opv-graphe.git
